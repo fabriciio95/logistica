@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.log.domain.model.Cliente;
 import com.log.domain.repository.ClienteRepository;
+import com.log.domain.service.CrudClienteService;
 
 import lombok.AllArgsConstructor;
 
@@ -27,25 +28,24 @@ import lombok.AllArgsConstructor;
 public class ClienteController {
 	
 	private ClienteRepository clienteRepository;
+	private CrudClienteService crudClienteService;
 	
 
 	@GetMapping
 	public List<Cliente> listar() {
-		return clienteRepository.findAll();
+		return crudClienteService.listar();
 	}
 	
 	@GetMapping("/{clienteId}")
 	public ResponseEntity<Cliente> buscar(@PathVariable Long clienteId) {
-		return clienteRepository.findById(clienteId)
-				//.map(cliente -> ResponseEntity.ok(cliente))
-				.map(ResponseEntity::ok)
-				.orElse(ResponseEntity.notFound().build());
+		Cliente cliente = crudClienteService.buscarPorId(clienteId);
+		return cliente != null ? ResponseEntity.ok(cliente) : ResponseEntity.notFound().build();
 	}
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public Cliente adicionar(@RequestBody @Valid Cliente cliente) {
-		return clienteRepository.save(cliente);
+		return crudClienteService.salvar(cliente);
 	}
 	
 	@PutMapping("/{clienteId}")
@@ -55,7 +55,7 @@ public class ClienteController {
 		}
 		
 		cliente.setId(clienteId);
-		return ResponseEntity.ok(clienteRepository.save(cliente));
+		return ResponseEntity.ok(crudClienteService.salvar(cliente));
 	}
 	
 	@DeleteMapping("/{clienteId}")
@@ -64,7 +64,7 @@ public class ClienteController {
 			return ResponseEntity.notFound().build();
 		}
 		
-		clienteRepository.deleteById(clienteId);
+		crudClienteService.excluir(clienteId);
 		
 		return ResponseEntity.noContent().build();
 	}
