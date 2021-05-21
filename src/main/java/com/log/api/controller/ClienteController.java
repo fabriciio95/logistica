@@ -2,8 +2,11 @@ package com.log.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,12 +45,12 @@ public class ClienteController {
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public Cliente adicionar(@RequestBody Cliente cliente) {
+	public Cliente adicionar(@RequestBody @Valid Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
 	
 	@PutMapping("/{clienteId}")
-	public ResponseEntity<Cliente> atualizar(@PathVariable Long clienteId, @RequestBody Cliente cliente) {
+	public ResponseEntity<Cliente> atualizar(@PathVariable Long clienteId, @Valid @RequestBody Cliente cliente) {
 		if(!clienteRepository.existsById(clienteId)) {
 			return ResponseEntity.notFound().build();
 		}
