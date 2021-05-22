@@ -1,6 +1,6 @@
 package com.log.api.exceptionhandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.stream.Collectors;
 
 import org.springframework.context.MessageSource;
@@ -46,7 +46,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	public Problema criarProblema(Exception ex, int status, String msg) {
 		Problema problema = new Problema();
 		problema.setStatus(status);
-		problema.setDataHora(LocalDateTime.now());
+		problema.setDataHora(OffsetDateTime.now());
 		problema.setTitulo(msg);
 		if(ex instanceof BindException) {
 			problema.setCampos(((BindException) ex).getAllErrors()
