@@ -12,6 +12,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.groups.Default;
+import javax.validation.groups.ConvertGroup;
+import com.log.domain.ValidationGroups;
+
+
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -26,16 +33,24 @@ import lombok.Setter;
 @Entity
 public class Entrega {
 
+	
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Valid
+	@ConvertGroup(from = Default.class, to = ValidationGroups.ClienteId.class)
 	@ManyToOne
+	@NotNull
 	private Cliente cliente;
 	
+	@Valid
+	@NotNull
 	@Embedded
 	private Destinatario destinatario;
+	
+	@NotNull
 	private BigDecimal taxa;
 	
 	@Enumerated(EnumType.STRING)
