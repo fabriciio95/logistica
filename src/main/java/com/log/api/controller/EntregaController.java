@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.log.api.model.DestinatarioDTO;
-import com.log.api.model.EntregaDTO;
+import com.log.api.mapper.EntregaMapper;
+import com.log.api.model.input.EntregaDTOInput;
+import com.log.api.model.output.EntregaDTOOutput;
 import com.log.domain.model.Entrega;
 import com.log.domain.repository.EntregaRepository;
 import com.log.domain.service.SolicitacaoEntregaService;
@@ -29,37 +30,26 @@ public class EntregaController {
 
 	private EntregaRepository entregaRepository;
 	private SolicitacaoEntregaService solicitacaoEntregaService;
+	private EntregaMapper entregaMapper;
 	
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Entrega solicitar(@RequestBody @Valid Entrega entrega) {
-		return solicitacaoEntregaService.solicitar(entrega);
+	public EntregaDTOOutput solicitar(@RequestBody @Valid EntregaDTOInput entregaDTOInput) {
+		Entrega entrega = entregaMapper.toEntity(entregaDTOInput);
+		entrega = solicitacaoEntregaService.solicitar(entrega);
+		return entregaMapper.toDTO(entrega);
 	}
 	
 	@GetMapping
-	public List<Entrega> listar(){
-		return entregaRepository.findAll();
+	public List<EntregaDTOOutput> listar(){
+		return entregaMapper.toListDTO(entregaRepository.findAll());
 	}
 	
 	@GetMapping("/{entregaId}")
-	public ResponseEntity<EntregaDTO> buscarPorId(@PathVariable Long entregaId){
+	public ResponseEntity<EntregaDTOOutput> buscarPorId(@PathVariable Long entregaId){
 		return entregaRepository.findById(entregaId)
-				.map(entrega -> {
-					EntregaDTO entregaDTO = new EntregaDTO();
-					entregaDTO.setId(entrega.getId());
-					entregaDTO.setNomeCliente(entrega.getCliente().getNome());
-					entregaDTO.setDestinatario(new DestinatarioDTO());
-					entregaDTO.getDestinatario().setNome(entrega.getDestinatario().getNome());
-					entregaDTO.getDestinatario().setNumero(entrega.getDestinatario().getNumero());
-					entregaDTO.getDestinatario().setLogradouro(entrega.getDestinatario().getLogradouro());
-					entregaDTO.getDestinatario().setBairro(entrega.getDestinatario().getBairro());
-					entregaDTO.getDestinatario().setComplemento(entrega.getDestinatario().getComplemento());
-					entregaDTO.setStatus(entrega.getStatus());
-					entregaDTO.setTaxa(entrega.getTaxa());
-					entregaDTO.setDataPedido(entrega.getDataPedido());
-					entregaDTO.setDataFinalizacao(entrega.getDataFinalizacao());
-					return ResponseEntity.ok(entregaDTO);
-				}).orElse(ResponseEntity.notFound().build());
+				.map(entrega -> ResponseEntity.ok(entregaMapper.toDTO(entrega)))
+				.orElse(ResponseEntity.notFound().build());
 	}
 }

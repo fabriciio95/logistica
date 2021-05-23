@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.log.api.mapper.ClienteMapper;
+import com.log.api.model.input.ClienteDTOInput;
+import com.log.api.model.output.ClienteDTOOutput;
 import com.log.domain.model.Cliente;
 import com.log.domain.repository.ClienteRepository;
 import com.log.domain.service.CrudClienteService;
@@ -29,33 +32,39 @@ public class ClienteController {
 	
 	private ClienteRepository clienteRepository;
 	private CrudClienteService crudClienteService;
+	private ClienteMapper clienteMapper;
 	
 
 	@GetMapping
-	public List<Cliente> listar() {
-		return crudClienteService.listar();
+	public List<ClienteDTOOutput> listar() {
+		return clienteMapper.toListDTO(crudClienteService.listar());
 	}
 	
 	@GetMapping("/{clienteId}")
-	public ResponseEntity<Cliente> buscar(@PathVariable Long clienteId) {
+	public ResponseEntity<ClienteDTOOutput> buscar(@PathVariable Long clienteId) {
 		Cliente cliente = crudClienteService.buscarPorId(clienteId);
-		return cliente != null ? ResponseEntity.ok(cliente) : ResponseEntity.notFound().build();
+		return cliente != null ? ResponseEntity.ok(clienteMapper.toDTO(cliente)) : ResponseEntity.notFound().build();
 	}
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public Cliente adicionar(@RequestBody @Valid Cliente cliente) {
-		return crudClienteService.salvar(cliente);
+	public ClienteDTOOutput adicionar(@RequestBody @Valid ClienteDTOInput clienteDTOinput) {
+		Cliente cliente = clienteMapper.toEntity(clienteDTOinput);
+		cliente = crudClienteService.salvar(cliente);
+		return clienteMapper.toDTO(cliente);
 	}
 	
 	@PutMapping("/{clienteId}")
-	public ResponseEntity<Cliente> atualizar(@PathVariable Long clienteId, @Valid @RequestBody Cliente cliente) {
+	public ResponseEntity<ClienteDTOOutput> atualizar(@PathVariable Long clienteId,
+			@Valid @RequestBody ClienteDTOInput clienteDTOInput) {
 		if(!clienteRepository.existsById(clienteId)) {
 			return ResponseEntity.notFound().build();
 		}
 		
+		Cliente cliente = clienteMapper.toEntity(clienteDTOInput);
 		cliente.setId(clienteId);
-		return ResponseEntity.ok(crudClienteService.salvar(cliente));
+		cliente = crudClienteService.salvar(cliente);
+		return ResponseEntity.ok(clienteMapper.toDTO(cliente));
 	}
 	
 	@DeleteMapping("/{clienteId}")
