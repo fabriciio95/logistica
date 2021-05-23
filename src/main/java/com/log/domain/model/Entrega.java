@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.log.domain.exception.NegocioException;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -58,5 +60,14 @@ public class Entrega {
 		ocorrencia.setDataRegistro(OffsetDateTime.now());
 		ocorrencias.add(ocorrencia);
 		return ocorrencia;
+	}
+	
+	public void finalizarOuCancelar(StatusEntrega status) {
+		if(!this.getStatus().equals(StatusEntrega.PENDENTE)) {
+			String msg = status.equals(StatusEntrega.FINALIZADA) ? "finalizada" : "cancelada";
+			throw new NegocioException(String.format("Entrega não pode ser %s", msg));
+		}
+		this.setStatus(status);
+		this.setDataFinalizacao(OffsetDateTime.now());
 	}
 }
