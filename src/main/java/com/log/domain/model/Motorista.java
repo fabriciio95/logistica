@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 @Entity
-public class Cliente extends Personagem implements Serializable {
+public class Motorista extends Personagem implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 }

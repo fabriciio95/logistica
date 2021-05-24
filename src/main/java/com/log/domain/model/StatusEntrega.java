@@ -2,6 +2,6 @@ package com.log.domain.model;
 
 public enum StatusEntrega {
 	
-	PENDENTE, FINALIZADA, CANCELADA;
+	PENDENTE, EM_ANDAMENTO, FINALIZADA, CANCELADA;
 
 }

@@ -1,0 +1,7 @@
+CREATE TABLE administrador
+(
+	id BIGINT NOT NULL AUTO_INCREMENT,
+	usuario VARCHAR(8) NOT NULL unique,
+	senha VARCHAR(255) NOT NULL,
+	PRIMARY KEY(id)
+);
