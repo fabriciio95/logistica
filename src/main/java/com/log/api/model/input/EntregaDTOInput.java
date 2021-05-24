@@ -1,8 +1,10 @@
 package com.log.api.model.input;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
@@ -20,6 +22,10 @@ public class EntregaDTOInput {
 	@NotNull
 	private DestinatarioDTOInput destinatario;
 	
+	@Valid
+	@NotEmpty
+	private List<ObjetoDTOInput> objetos;
+	
 	@NotNull
-	private BigDecimal taxa;	
+	private BigDecimal taxa;
 }

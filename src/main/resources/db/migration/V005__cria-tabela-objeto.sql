@@ -1,0 +1,8 @@
+CREATE TABLE objeto
+(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(60) NOT NULL,
+    peso FLOAT NOT NULL,
+	entrega_id BIGINT NOT NULL,
+	FOREIGN KEY(entrega_id) REFERENCES entrega(id)
+);

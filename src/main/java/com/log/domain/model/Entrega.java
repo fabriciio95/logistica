@@ -46,6 +46,9 @@ public class Entrega {
 	@OneToMany(mappedBy = "entrega", cascade = CascadeType.ALL)
 	private List<Ocorrencia> ocorrencias = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "entrega")
+	private List<Objeto> objetos = new ArrayList<>();
+	
 	@Enumerated(EnumType.STRING)
 	private StatusEntrega status;
 	
