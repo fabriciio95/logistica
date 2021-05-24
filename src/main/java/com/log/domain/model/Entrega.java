@@ -38,6 +38,9 @@ public class Entrega {
 	@ManyToOne
 	private Cliente cliente;
 	
+	@ManyToOne
+	private Motorista motorista;
+	
 	@Embedded
 	private Destinatario destinatario;
 	
@@ -66,7 +69,7 @@ public class Entrega {
 	}
 	
 	public void finalizarOuCancelar(StatusEntrega status) {
-		if(!this.getStatus().equals(StatusEntrega.PENDENTE)) {
+		if((!this.getStatus().equals(StatusEntrega.PENDENTE)) && (!this.getStatus().equals(StatusEntrega.EM_ANDAMENTO))) {
 			String msg = status.equals(StatusEntrega.FINALIZADA) ? "finalizada" : "cancelada";
 			throw new NegocioException(String.format("Entrega não pode ser %s", msg));
 		}
