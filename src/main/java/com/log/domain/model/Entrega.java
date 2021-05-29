@@ -60,6 +60,10 @@ public class Entrega {
 	private OffsetDateTime dataFinalizacao;
 	
 	public Ocorrencia adicionarOcorrencia(String descricao) {
+		if(!(this.getStatus().equals(StatusEntrega.PENDENTE) || this.getStatus().equals(StatusEntrega.EM_ANDAMENTO))) {
+			String msg = status.equals(StatusEntrega.FINALIZADA) ? "finalizada" : "cancelada";
+			throw new NegocioException(String.format("Status da entrega já está como %s", msg));
+		}
 		Ocorrencia ocorrencia = new Ocorrencia();
 		ocorrencia.setDescricao(descricao);
 		ocorrencia.setEntrega(this);
@@ -75,5 +79,13 @@ public class Entrega {
 		}
 		this.setStatus(status);
 		this.setDataFinalizacao(OffsetDateTime.now());
+	}
+	
+	public void colocarStatusEmAndamento() {
+		if(!this.getStatus().equals(StatusEntrega.PENDENTE)) {
+			throw new NegocioException("Entrega não esta com status pendente");
+		}
+		
+		this.setStatus(StatusEntrega.EM_ANDAMENTO);
 	}
 }

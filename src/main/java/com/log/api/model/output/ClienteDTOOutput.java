@@ -11,4 +11,5 @@ public class ClienteDTOOutput {
 	private String nome;
 	private String email;
 	private String telefone;
+	private String cpf;
 }

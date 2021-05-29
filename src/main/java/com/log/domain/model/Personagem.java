@@ -1,6 +1,5 @@
 package com.log.domain.model;
 
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +25,6 @@ public class Personagem  {
 
 	private String email;
 	
-	@Column(name = "fone")
 	private String telefone;
 	
 	private String cpf;

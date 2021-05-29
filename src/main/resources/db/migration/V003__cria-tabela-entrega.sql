@@ -2,6 +2,7 @@ CREATE TABLE entrega (
 	
 	id BIGINT NOT NULL AUTO_INCREMENT,
 	cliente_id BIGINT NOT NULL,
+	motorista_id BIGINT,
 	taxa DECIMAL(10,2) NOT NULL,
 	status VARCHAR(20) NOT NULL,
 	data_pedido DATETIME NOT NULL,
@@ -14,6 +15,7 @@ CREATE TABLE entrega (
 	destinatario_bairro VARCHAR(30) NOT NULL,
 	
 	PRIMARY KEY (id),
-	FOREIGN KEY (cliente_id) REFERENCES cliente (id)
+	FOREIGN KEY (cliente_id) REFERENCES cliente (id),
+	FOREIGN KEY (motorista_id) REFERENCES motorista(id)
 	
 );

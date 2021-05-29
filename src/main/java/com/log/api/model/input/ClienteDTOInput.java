@@ -23,4 +23,8 @@ public class ClienteDTOInput {
 	@NotBlank
 	@Size(max = 20)
 	private String telefone;
+	
+	@NotBlank
+	@Size(max = 15)
+	private String cpf;
 }

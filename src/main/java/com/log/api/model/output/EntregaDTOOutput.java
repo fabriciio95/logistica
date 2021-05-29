@@ -24,5 +24,6 @@ public class EntregaDTOOutput {
 	private OffsetDateTime dataPedido;
 	private OffsetDateTime dataFinalizacao;
 	private List<ObjetoDTOOutput> objetos;
+	private List<OcorrenciaDTOOutput> ocorrencias;
 	
 }

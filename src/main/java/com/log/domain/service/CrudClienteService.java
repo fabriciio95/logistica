@@ -38,8 +38,13 @@ public class CrudClienteService {
 			.stream()
 			.anyMatch(clienteExiste -> !clienteExiste.equals(cliente));
 		
-		if(emailEmUso) {
-			throw new NegocioException("Já existe um cliente cadastrado com este e-mail.");
+		boolean cpfEmUso = clienteRepository.findByCpf(cliente.getCpf())
+				.stream()
+				.anyMatch(clienteExistente -> !clienteExistente.equals(cliente));
+		
+		if(emailEmUso || cpfEmUso) {
+			String msg = emailEmUso ? "e-mail" : "cpf";
+			throw new NegocioException(String.format("Já existe um cliente cadastrado com este %s.", msg));
 		}
 		
 		return clienteRepository.save(cliente);
