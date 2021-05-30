@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,4 +28,10 @@ public class Administrador implements Serializable {
 	
 	private String usuario;
 	private String senha;
+	
+	public void criptografarSenha() {
+		PasswordEncoder enconder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		String senhaCriptografada = enconder.encode(senha);
+		setSenha(senhaCriptografada);
+	}
 }
