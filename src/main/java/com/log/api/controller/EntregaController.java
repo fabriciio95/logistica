@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.log.api.mapper.EntregaMapper;
 import com.log.api.model.input.EntregaDTOInput;
+import com.log.api.model.input.MotoristaDTOIdInput;
 import com.log.api.model.input.OcorrenciaDTOInput;
 import com.log.api.model.output.EntregaDTOOutput;
 import com.log.domain.model.Entrega;
@@ -67,5 +68,11 @@ public class EntregaController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void cancelar(@PathVariable Long entregaId, @RequestBody @Valid OcorrenciaDTOInput ocorrenciaDTOInput) {
 		statusEntregaService.cancelar(entregaId, ocorrenciaDTOInput.getDescricao());
+	}
+	
+	@PutMapping("/{entregaId}/andamento")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void andamento(@PathVariable Long entregaId, @RequestBody @Valid MotoristaDTOIdInput motoristaDTOIdInput) {
+		statusEntregaService.colocarEmAndamento(entregaId, motoristaDTOIdInput.getMotorista().getId());
 	}
 }

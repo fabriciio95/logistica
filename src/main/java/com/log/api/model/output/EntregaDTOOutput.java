@@ -17,7 +17,7 @@ import lombok.Setter;
 public class EntregaDTOOutput {
 
 	private Long id;
-	private ClienteResumoDTOOutput cliente;
+	private PersonagemResumoDTOOutput cliente;
 	private DestinatarioDTOOutput destinatario;
 	private BigDecimal taxa;
 	private StatusEntrega status;
@@ -25,5 +25,6 @@ public class EntregaDTOOutput {
 	private OffsetDateTime dataFinalizacao;
 	private List<ObjetoDTOOutput> objetos;
 	private List<OcorrenciaDTOOutput> ocorrencias;
+	private PersonagemResumoDTOOutput motorista;
 	
 }

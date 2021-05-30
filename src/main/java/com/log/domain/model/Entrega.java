@@ -72,14 +72,6 @@ public class Entrega {
 		return ocorrencia;
 	}
 	
-	public void finalizarOuCancelar(StatusEntrega status) {
-		if((!this.getStatus().equals(StatusEntrega.PENDENTE)) && (!this.getStatus().equals(StatusEntrega.EM_ANDAMENTO))) {
-			String msg = status.equals(StatusEntrega.FINALIZADA) ? "finalizada" : "cancelada";
-			throw new NegocioException(String.format("Entrega não pode ser %s", msg));
-		}
-		this.setStatus(status);
-		this.setDataFinalizacao(OffsetDateTime.now());
-	}
 	
 	public void colocarStatusEmAndamento() {
 		if(!this.getStatus().equals(StatusEntrega.PENDENTE)) {
@@ -87,5 +79,25 @@ public class Entrega {
 		}
 		
 		this.setStatus(StatusEntrega.EM_ANDAMENTO);
+	}
+	
+	
+	public void finalizar() {
+		if(this.getStatus().equals(StatusEntrega.EM_ANDAMENTO)) {
+			this.setStatus(StatusEntrega.FINALIZADA);
+			this.setDataFinalizacao(OffsetDateTime.now());
+		} else {
+			throw new NegocioException("Entrega não pode ser finalizada, pois não está com status em andamento");
+		}
+	}
+	
+	public void cancelar() {
+		if(this.getStatus().equals(StatusEntrega.PENDENTE) || this.getStatus().equals(StatusEntrega.EM_ANDAMENTO)) {
+			this.setStatus(StatusEntrega.CANCELADA);
+			this.setDataFinalizacao(OffsetDateTime.now());
+		} else {
+			String msg = status.equals(StatusEntrega.FINALIZADA) ? "finalizada" : "cancelada";
+			throw new NegocioException(String.format("Entrega não pode ser cancelada, pois seu status atual ja é de %s", msg));
+		}
 	}
 }

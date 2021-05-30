@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.log.domain.exception.EntidadeNaoEncontradaException;
 import com.log.domain.exception.NegocioException;
 import com.log.domain.model.Motorista;
 import com.log.domain.repository.MotoristaRepository;
@@ -24,7 +25,8 @@ public class CrudMotoristaService {
 	}
 	
 	public Motorista buscarPorId(Long id) {
-		return motoristaRepository.findById(id).orElseThrow(() -> new NegocioException("Motorista não encontrado"));
+		return motoristaRepository.findById(id)
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Motorista não encontrado"));
 	}
 	
 	@Transactional

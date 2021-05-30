@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.log.domain.exception.EntidadeNaoEncontradaException;
 import com.log.domain.exception.NegocioException;
 import com.log.domain.model.Cliente;
 import com.log.domain.repository.ClienteRepository;
@@ -24,7 +25,7 @@ public class CrudClienteService {
 	
 	public Cliente buscarPorId(Long clienteId) throws NegocioException {
 		return clienteRepository.findById(clienteId)
-				.orElseThrow(() -> new NegocioException("Cliente não encontrado"));
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
 	}
 	
 	
