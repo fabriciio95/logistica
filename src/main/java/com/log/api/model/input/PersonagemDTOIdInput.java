@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ClienteDTOIdInput {
+public class PersonagemDTOIdInput {
 
 	@NotNull
 	private Long id;

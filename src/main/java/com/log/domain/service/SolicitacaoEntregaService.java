@@ -22,7 +22,7 @@ public class SolicitacaoEntregaService {
 	
 	@Transactional
 	public Entrega solicitar(Entrega entrega) {
-		entrega.setCliente(crudClienteService.buscar(entrega.getCliente().getId()));
+		entrega.setCliente(crudClienteService.buscarPorId(entrega.getCliente().getId()));
 		entrega.setStatus(StatusEntrega.PENDENTE);
 		entrega.setDataPedido(OffsetDateTime.now());
 		entrega = entregaRepository.save(entrega);

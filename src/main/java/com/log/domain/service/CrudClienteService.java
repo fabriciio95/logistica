@@ -22,13 +22,9 @@ public class CrudClienteService {
 		return clienteRepository.findAll();
 	}
 	
-	public Cliente buscar(Long clienteId) throws NegocioException {
+	public Cliente buscarPorId(Long clienteId) throws NegocioException {
 		return clienteRepository.findById(clienteId)
 				.orElseThrow(() -> new NegocioException("Cliente não encontrado"));
-	}
-	
-	public Cliente buscarPorId(Long clienteId) {
-		return clienteRepository.findById(clienteId).orElse(null);
 	}
 	
 	

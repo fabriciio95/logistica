@@ -16,7 +16,7 @@ public class EntregaDTOInput {
 
 	@Valid
 	@NotNull
-	private ClienteDTOIdInput cliente;
+	private PersonagemDTOIdInput cliente;
 	
 	@Valid
 	@NotNull

@@ -7,7 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.log.api.model.input.ClienteDTOInput;
+import com.log.api.model.input.PersonagemDTOInput;
 import com.log.api.model.output.ClienteDTOOutput;
 import com.log.domain.model.Cliente;
 
@@ -25,7 +25,7 @@ public class ClienteMapper {
 		return clientes.stream().map(this::toDTO).collect(Collectors.toList());
 	}
 	
-	public Cliente toEntity(ClienteDTOInput clienteDTOInput) {
+	public Cliente toEntity(PersonagemDTOInput clienteDTOInput) {
 		return modelMapper.map(clienteDTOInput, Cliente.class);
 	}
 }

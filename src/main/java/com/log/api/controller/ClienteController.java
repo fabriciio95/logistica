@@ -42,8 +42,9 @@ public class ClienteController {
 	
 	@GetMapping("/{clienteId}")
 	public ResponseEntity<ClienteDTOOutput> buscar(@PathVariable Long clienteId) {
-		Cliente cliente = crudClienteService.buscarPorId(clienteId);
-		return cliente != null ? ResponseEntity.ok(clienteMapper.toDTO(cliente)) : ResponseEntity.notFound().build();
+		return clienteRepository.findById(clienteId)
+				.map(cliente -> ResponseEntity.ok(clienteMapper.toDTO(cliente)))
+				.orElse(ResponseEntity.notFound().build());
 	}
 	
 	@PostMapping
