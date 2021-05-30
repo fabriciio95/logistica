@@ -8,4 +8,5 @@ import com.log.domain.model.Administrador;
 @Repository
 public interface AdministradorRepository extends JpaRepository<Administrador, Long> {
 
+	Administrador findByUsuario(String usuario);
 }
