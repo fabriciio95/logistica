@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.log.api.mapper.MotoristaMapper;
@@ -64,6 +65,11 @@ public class MotoristaController {
 		return motoristaRepository.findById(id)
 				.map(motorista -> ResponseEntity.ok(motoristaMapper.toDTO(motorista)))
 				.orElse(ResponseEntity.notFound().build());
+	}
+	
+	@GetMapping("/findbycpf")
+	public List<MotoristaDTOOutput> listarPorCpf(@RequestParam(required = true, name = "cpf") String cpf) {
+		return motoristaMapper.toListDTO(motoristaRepository.findByCpfContaining(cpf));
 	}
 	
 	@DeleteMapping("/{id}")
