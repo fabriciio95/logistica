@@ -28,7 +28,7 @@ public class MotoristaConsultasEntregasController {
 	private EntregaMapper entregaMapper;
 	private MotoristaMapper motoristaMapper;
 	
-	@GetMapping
+	@GetMapping(produces="application/json")
 	public ResponseEntity<MotoristaEntregaDTOOutput> obterTodasEntregas(
 			@PathVariable(name = "idMotorista", required = true) Long idMotorista, Pageable pageable) {
 		Motorista motorista = crudMotoristaService.buscarPorId(idMotorista);

@@ -7,10 +7,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
-import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -24,13 +26,27 @@ public class SwaggerConfig {
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
-				.apis(RequestHandlerSelectors.any())
+				.apis(RequestHandlerSelectors.basePackage("com.log.api.controller"))
 				.paths(PathSelectors.any())
 				.build()
 				.useDefaultResponseMessages(false)
-				.globalResponseMessage(RequestMethod.GET, responseMessageForGet());
+				.globalResponseMessage(RequestMethod.GET, responseMessageForGet())
+				.globalResponseMessage(RequestMethod.POST, responseMessageForPost())
+				.globalResponseMessage(RequestMethod.PUT, responseMessageForPut())
+				.globalResponseMessage(RequestMethod.DELETE, responseMessageForDelete())
+				.apiInfo(apiInfo());
 	}
 	
+	private ApiInfo apiInfo() {
+		return new ApiInfoBuilder()
+				.title("API REST simples em Spring Boot")
+				.description("Uma API de logística, onde clientes podem solicitar entregas,"
+						+ " sendo que cada entrega tem ocorrências, objetos e um motorista responsável.")
+				.contact(new Contact("Fabricio Siqueira Macedo", "https://github.com/fabriciio95",
+						"fabriciousiqueira@gmail.com"))
+				.build();
+	}
+
 	
 	private List<ResponseMessage> responseMessageForGet() {
 		return new ArrayList<>() {
@@ -38,13 +54,50 @@ public class SwaggerConfig {
 		{
 			add(new ResponseMessageBuilder()
 					.code(500)
-					.message("Erro interno no servidor")
-					.responseModel(new ModelRef("Error"))
+					.message("Internal Server Error")
 					.build());
 			add(new ResponseMessageBuilder()
-					.code(403)
-					.message("Forbidden!")
+					.code(401)
+					.message("Unauthorized")
 					.build());
 		}};
+	}
+	
+	private List<ResponseMessage> responseMessageForPost() {
+		return new ArrayList<>() {
+			private static final long serialVersionUID = 1L;
+			{
+				add(new ResponseMessageBuilder().code(401).message("Unauthorized").build());
+				add(new ResponseMessageBuilder().code(400).message("Bad Request").build());
+				add(new ResponseMessageBuilder().code(500).message("Internal Server Error").build());
+				
+			}
+		};
+	}
+	
+	private List<ResponseMessage> responseMessageForPut() {
+		return new ArrayList<>() {
+			private static final long serialVersionUID = 1L;
+			{
+				add(new ResponseMessageBuilder().code(401).message("Unauthorized").build());
+				add(new ResponseMessageBuilder().code(400).message("Bad Request").build());
+				add(new ResponseMessageBuilder().code(404).message("Not Found").build());
+				add(new ResponseMessageBuilder().code(405).message("Method Not Allowed").build());
+				add(new ResponseMessageBuilder().code(500).message("Internal Server Error").build());
+			}
+		};
+	}
+	
+	
+	private List<ResponseMessage> responseMessageForDelete() {
+		return new ArrayList<>() {
+			private static final long serialVersionUID = 1L;
+			{
+				add(new ResponseMessageBuilder().code(401).message("Unauthorized").build());
+				add(new ResponseMessageBuilder().code(404).message("Not Found").build());
+				add(new ResponseMessageBuilder().code(405).message("Method Not Allowed").build());
+				add(new ResponseMessageBuilder().code(500).message("Internal Server Error").build());
+			}
+		};
 	}
 }

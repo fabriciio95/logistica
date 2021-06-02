@@ -23,7 +23,7 @@ public class EntregaConsultasController {
 	private BuscaEntregaService buscaEntregaService;
 	private EntregaMapper entregaMapper;
 	
-	@GetMapping("/status")
+	@GetMapping(value = "/status", produces="application/json")
 	public ResponseEntity<Page<EntregaDTOOutput>> buscarPorStatus(@RequestParam(name = "status",
 		required = true) String statusEmString, Pageable pageable) {
 		StatusEntrega statusEntrega = StatusEntrega.valueOf(statusEmString.toUpperCase());

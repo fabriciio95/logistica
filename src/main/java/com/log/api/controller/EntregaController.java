@@ -38,7 +38,7 @@ public class EntregaController {
 	private StatusEntregaService statusEntregaService;
 	
 	
-	@PostMapping
+	@PostMapping(consumes = "application/json", produces="application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	public EntregaDTOOutput solicitar(@RequestBody @Valid EntregaDTOInput entregaDTOInput) {
 		Entrega entrega = entregaMapper.toEntity(entregaDTOInput);
@@ -46,31 +46,31 @@ public class EntregaController {
 		return entregaMapper.toDTO(entrega);
 	}
 	
-	@GetMapping
+	@GetMapping(produces="application/json")
 	public List<EntregaDTOOutput> listar(){
 		return entregaMapper.toListDTO(entregaRepository.findAll());
 	}
 	
-	@GetMapping("/{entregaId}")
+	@GetMapping(value = "/{entregaId}", produces="application/json")
 	public ResponseEntity<EntregaDTOOutput> buscarPorId(@PathVariable Long entregaId){
 		return entregaRepository.findById(entregaId)
 				.map(entrega -> ResponseEntity.ok(entregaMapper.toDTO(entrega)))
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
-	@PutMapping("/{entregaId}/finalizacao")
+	@PutMapping(value = "/{entregaId}/finalizacao", produces="application/json")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void finalizar(@PathVariable Long entregaId) {
 		statusEntregaService.finalizar(entregaId);
 	}
 	
-	@PutMapping("/{entregaId}/cancelamento") 
+	@PutMapping(value = "/{entregaId}/cancelamento", produces="application/json") 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void cancelar(@PathVariable Long entregaId, @RequestBody @Valid OcorrenciaDTOInput ocorrenciaDTOInput) {
 		statusEntregaService.cancelar(entregaId, ocorrenciaDTOInput.getDescricao());
 	}
 	
-	@PutMapping("/{entregaId}/andamento")
+	@PutMapping(value = "/{entregaId}/andamento", produces="application/json")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void andamento(@PathVariable Long entregaId, @RequestBody @Valid MotoristaDTOIdInput motoristaDTOIdInput) {
 		statusEntregaService.colocarEmAndamento(entregaId, motoristaDTOIdInput.getMotorista().getId());

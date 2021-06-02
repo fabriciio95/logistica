@@ -34,14 +34,14 @@ public class MotoristaController {
 	private CrudMotoristaService crudMotoristaService;
 	private MotoristaMapper motoristaMapper;
 	
-	@PostMapping
+	@PostMapping(consumes = "application/json", produces="application/json")
 	public ResponseEntity<MotoristaDTOOutput> criar(@RequestBody @Valid MotoristaDTOInput motoristaDTOInput) {
 		Motorista motorista = motoristaMapper.toEntity(motoristaDTOInput);
 		motorista = crudMotoristaService.salvar(motorista);
 		return ResponseEntity.status(HttpStatus.CREATED).body(motoristaMapper.toDTO(motorista));
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping(value = "/{id}", consumes = "application/json", produces="application/json")
 	public ResponseEntity<MotoristaDTOOutput> atualizar(@PathVariable Long id,
 			@RequestBody @Valid MotoristaDTOInput motoristaDTOInput) {
 		
@@ -55,19 +55,19 @@ public class MotoristaController {
 		return ResponseEntity.ok(motoristaMapper.toDTO(motorista));
 	}
 	
-	@GetMapping
+	@GetMapping(produces="application/json")
 	public List<MotoristaDTOOutput> listar() {
 		return motoristaMapper.toListDTO(crudMotoristaService.listar());
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping(value = "/{id}", produces="application/json")
 	public ResponseEntity<MotoristaDTOOutput> obterPorId(@PathVariable Long id) {
 		return motoristaRepository.findById(id)
 				.map(motorista -> ResponseEntity.ok(motoristaMapper.toDTO(motorista)))
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
-	@GetMapping("/findbycpf")
+	@GetMapping(value = "/findbycpf", produces="application/json")
 	public List<MotoristaDTOOutput> listarPorCpf(@RequestParam(required = true, name = "cpf") String cpf) {
 		return motoristaMapper.toListDTO(motoristaRepository.findByCpfContaining(cpf));
 	}

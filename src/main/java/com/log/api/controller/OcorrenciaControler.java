@@ -32,14 +32,14 @@ public class OcorrenciaControler {
 	private OcorrenciaMapper ocorrenciaMapper;
 	private BuscaEntregaService buscaEntregaService;
 
-	@PostMapping
+	@PostMapping(consumes = "application/json", produces="application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	public OcorrenciaDTOOutput registrar(@PathVariable Long entregaId, @RequestBody @Valid OcorrenciaDTOInput ocorrenciaDTOInput) {
 		Ocorrencia ocorrencia = registroOcorrenciaService.registrar(entregaId, ocorrenciaDTOInput.getDescricao());
 		return ocorrenciaMapper.toDTO(ocorrencia);
 	}
 	
-	@GetMapping
+	@GetMapping(produces="application/json")
 	public List<OcorrenciaDTOOutput> listar(@PathVariable Long entregaId) {
 		Entrega entrega = buscaEntregaService.buscar(entregaId);
 		return ocorrenciaMapper.toListDTO(entrega.getOcorrencias());

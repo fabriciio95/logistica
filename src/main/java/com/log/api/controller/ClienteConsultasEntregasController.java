@@ -28,7 +28,7 @@ public class ClienteConsultasEntregasController {
 	private EntregaMapper entregaMapper;
 	private ClienteMapper clienteMapper;
 
-	@GetMapping
+	@GetMapping(produces="application/json")
 	public ResponseEntity<ClienteEntregaDTOOutput> obterTodasEntregas(@PathVariable(name = "idCliente", required = true) Long idCliente,
 			Pageable pageable) {
 		Cliente cliente = crudClienteService.buscarPorId(idCliente);

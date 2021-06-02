@@ -36,24 +36,24 @@ public class ClienteController {
 	private ClienteMapper clienteMapper;
 	
 
-	@GetMapping
+	@GetMapping(produces="application/json")
 	public List<ClienteDTOOutput> listar() {
 		return clienteMapper.toListDTO(crudClienteService.listar());
 	}
 	
-	@GetMapping("/{clienteId}")
+	@GetMapping(value = "/{clienteId}", produces="application/json")
 	public ResponseEntity<ClienteDTOOutput> buscar(@PathVariable Long clienteId) {
 		return clienteRepository.findById(clienteId)
 				.map(cliente -> ResponseEntity.ok(clienteMapper.toDTO(cliente)))
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
-	@GetMapping("/findbycpf")
+	@GetMapping(value = "/findbycpf", produces="application/json")
 	public List<ClienteDTOOutput> buscarPorCpf(@RequestParam(required = true, name = "cpf") String cpf) {
 		return clienteMapper.toListDTO(clienteRepository.findByCpfContaining(cpf));
 	}
 	
-	@PostMapping
+	@PostMapping(consumes = "application/json", produces="application/json")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public ClienteDTOOutput adicionar(@RequestBody @Valid ClienteDTOInput clienteDTOinput) {
 		Cliente cliente = clienteMapper.toEntity(clienteDTOinput);
@@ -61,7 +61,7 @@ public class ClienteController {
 		return clienteMapper.toDTO(cliente);
 	}
 	
-	@PutMapping("/{clienteId}")
+	@PutMapping(value = "/{clienteId}", consumes = "application/json", produces="application/json")
 	public ResponseEntity<ClienteDTOOutput> atualizar(@PathVariable Long clienteId,
 			@Valid @RequestBody ClienteDTOInput clienteDTOInput) {
 		if(!clienteRepository.existsById(clienteId)) {
