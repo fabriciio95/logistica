@@ -1,9 +1,9 @@
 package com.log.domain.service;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.log.domain.exception.EntidadeNaoEncontradaException;
@@ -20,8 +20,8 @@ public class CrudMotoristaService {
 	private MotoristaRepository motoristaRepository;
 	
 	
-	public List<Motorista> listar() {
-		return motoristaRepository.findAll();
+	public Page<Motorista> listar(Pageable pageable) {
+		return motoristaRepository.findAll(pageable);
 	}
 	
 	public Motorista buscarPorId(Long id) {

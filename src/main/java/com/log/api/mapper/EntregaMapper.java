@@ -1,9 +1,7 @@
 package com.log.api.mapper;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.log.api.model.input.EntregaDTOInput;
@@ -22,8 +20,8 @@ public class EntregaMapper {
 		return modelMapper.map(entrega, EntregaDTOOutput.class);
 	}
 	
-	public List<EntregaDTOOutput> toListDTO(List<Entrega> entregas) {
-		return entregas.stream().map(this::toDTO).collect(Collectors.toList());
+	public Page<EntregaDTOOutput> toListDTO(Page<Entrega> entregas) {
+		return entregas.map(this::toDTO);
 	}
 	
 	public Entrega toEntity(EntregaDTOInput entregaDTOInput) {

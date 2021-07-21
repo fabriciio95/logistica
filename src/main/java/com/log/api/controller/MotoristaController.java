@@ -1,9 +1,9 @@
 package com.log.api.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,8 +56,8 @@ public class MotoristaController {
 	}
 	
 	@GetMapping(produces="application/json")
-	public List<MotoristaDTOOutput> listar() {
-		return motoristaMapper.toListDTO(crudMotoristaService.listar());
+	public Page<MotoristaDTOOutput> listar(Pageable pageable) {
+		return motoristaMapper.toListDTO(crudMotoristaService.listar(pageable));
 	}
 	
 	@GetMapping(value = "/{id}", produces="application/json")
@@ -68,8 +68,8 @@ public class MotoristaController {
 	}
 	
 	@GetMapping(value = "/findbycpf", produces="application/json")
-	public List<MotoristaDTOOutput> listarPorCpf(@RequestParam(required = true, name = "cpf") String cpf) {
-		return motoristaMapper.toListDTO(motoristaRepository.findByCpfContaining(cpf));
+	public Page<MotoristaDTOOutput> listarPorCpf(@RequestParam(required = true, name = "cpf") String cpf, Pageable pageable) {
+		return motoristaMapper.toListDTO(motoristaRepository.findByCpfContaining(cpf, pageable));
 	}
 	
 	@DeleteMapping("/{id}")

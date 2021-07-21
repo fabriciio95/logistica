@@ -16,7 +16,7 @@ public class StatusEntregaService {
 
 	private EntregaRepository entregaRepository;
 	private BuscaEntregaService buscaEntregaService;
-	private RegistroOcorrenciasService registroOcorrenciasService;
+	private CrudOcorrenciasService registroOcorrenciasService;
 	private CrudMotoristaService crudMotoristaService;
 	
 	@Transactional

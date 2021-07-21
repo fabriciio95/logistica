@@ -1,9 +1,9 @@
 package com.log.api.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,8 +47,8 @@ public class EntregaController {
 	}
 	
 	@GetMapping(produces="application/json")
-	public List<EntregaDTOOutput> listar(){
-		return entregaMapper.toListDTO(entregaRepository.findAll());
+	public Page<EntregaDTOOutput> listar(Pageable pageable){
+		return entregaMapper.toListDTO(entregaRepository.findAll(pageable));
 	}
 	
 	@GetMapping(value = "/{entregaId}", produces="application/json")

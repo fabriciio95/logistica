@@ -1,9 +1,9 @@
 package com.log.api.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,9 +37,10 @@ public class ClienteController {
 	
 
 	@GetMapping(produces="application/json")
-	public List<ClienteDTOOutput> listar() {
-		return clienteMapper.toListDTO(crudClienteService.listar());
+	public Page<ClienteDTOOutput> listar(Pageable pageable) {
+		return clienteMapper.toPageDTO(crudClienteService.listar(pageable));
 	}
+	
 	
 	@GetMapping(value = "/{clienteId}", produces="application/json")
 	public ResponseEntity<ClienteDTOOutput> buscar(@PathVariable Long clienteId) {
@@ -49,8 +50,8 @@ public class ClienteController {
 	}
 	
 	@GetMapping(value = "/findbycpf", produces="application/json")
-	public List<ClienteDTOOutput> buscarPorCpf(@RequestParam(required = true, name = "cpf") String cpf) {
-		return clienteMapper.toListDTO(clienteRepository.findByCpfContaining(cpf));
+	public Page<ClienteDTOOutput> buscarPorCpf(@RequestParam(required = true, name = "cpf") String cpf, Pageable pageable) {
+		return clienteMapper.toPageDTO(clienteRepository.findByCpfContaining(cpf, pageable));
 	}
 	
 	@PostMapping(consumes = "application/json", produces="application/json")

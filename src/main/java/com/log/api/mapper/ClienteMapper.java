@@ -1,8 +1,5 @@
 package com.log.api.mapper;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,8 +22,8 @@ public class ClienteMapper {
 		return modelMapper.map(cliente, ClienteDTOOutput.class);
 	}
 	
-	public List<ClienteDTOOutput> toListDTO(List<Cliente> clientes) {
-		return clientes.stream().map(this::toDTO).collect(Collectors.toList());
+	public Page<ClienteDTOOutput> toPageDTO(Page<Cliente> clientes) {
+		return clientes.map(this::toDTO);
 	}
 	
 	public Cliente toEntity(PersonagemDTOInput clienteDTOInput) {

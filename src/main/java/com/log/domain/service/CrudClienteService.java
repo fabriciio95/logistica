@@ -1,7 +1,7 @@
 package com.log.domain.service;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,8 +19,8 @@ public class CrudClienteService {
 	private ClienteRepository clienteRepository;
 	
 	
-	public List<Cliente> listar(){
-		return clienteRepository.findAll();
+	public Page<Cliente> listar(Pageable pageable){
+		return clienteRepository.findAll(pageable);
 	}
 	
 	public Cliente buscarPorId(Long clienteId) throws NegocioException {

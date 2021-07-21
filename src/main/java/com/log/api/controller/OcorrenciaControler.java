@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +21,7 @@ import com.log.api.model.output.OcorrenciaDTOOutput;
 import com.log.domain.model.Entrega;
 import com.log.domain.model.Ocorrencia;
 import com.log.domain.service.BuscaEntregaService;
-import com.log.domain.service.RegistroOcorrenciasService;
+import com.log.domain.service.CrudOcorrenciasService;
 
 import lombok.AllArgsConstructor;
 
@@ -28,14 +30,14 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/entregas/{entregaId}/ocorrencias")
 public class OcorrenciaControler {
 	
-	private RegistroOcorrenciasService registroOcorrenciaService;
+	private CrudOcorrenciasService crudOcorrenciaService;
 	private OcorrenciaMapper ocorrenciaMapper;
 	private BuscaEntregaService buscaEntregaService;
 
 	@PostMapping(consumes = "application/json", produces="application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	public OcorrenciaDTOOutput registrar(@PathVariable Long entregaId, @RequestBody @Valid OcorrenciaDTOInput ocorrenciaDTOInput) {
-		Ocorrencia ocorrencia = registroOcorrenciaService.registrar(entregaId, ocorrenciaDTOInput.getDescricao());
+		Ocorrencia ocorrencia = crudOcorrenciaService.registrar(entregaId, ocorrenciaDTOInput.getDescricao());
 		return ocorrenciaMapper.toDTO(ocorrencia);
 	}
 	
@@ -43,5 +45,11 @@ public class OcorrenciaControler {
 	public List<OcorrenciaDTOOutput> listar(@PathVariable Long entregaId) {
 		Entrega entrega = buscaEntregaService.buscar(entregaId);
 		return ocorrenciaMapper.toListDTO(entrega.getOcorrencias());
+	}
+	
+	@GetMapping(value = "/paginacao", produces = "application/json")
+	public Page<OcorrenciaDTOOutput> paginar(@PathVariable Long entregaId, Pageable pageable) {
+		Entrega entrega = buscaEntregaService.buscar(entregaId);
+		return ocorrenciaMapper.toPageDTO(crudOcorrenciaService.paginarListaOcorrencias(entrega.getOcorrencias(), pageable));
 	}
 }

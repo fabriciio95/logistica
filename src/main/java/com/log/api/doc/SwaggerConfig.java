@@ -5,21 +5,19 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpMethod;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.builders.ResponseBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
-import springfox.documentation.service.ResponseMessage;
+import springfox.documentation.service.Response;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
 
 	@Bean
@@ -29,17 +27,17 @@ public class SwaggerConfig {
 				.apis(RequestHandlerSelectors.basePackage("com.log.api.controller"))
 				.paths(PathSelectors.any())
 				.build()
+				.apiInfo(apiInfo())
 				.useDefaultResponseMessages(false)
-				.globalResponseMessage(RequestMethod.GET, responseMessageForGet())
-				.globalResponseMessage(RequestMethod.POST, responseMessageForPost())
-				.globalResponseMessage(RequestMethod.PUT, responseMessageForPut())
-				.globalResponseMessage(RequestMethod.DELETE, responseMessageForDelete())
-				.apiInfo(apiInfo());
+				.globalResponses(HttpMethod.GET, responseMessageForGet())
+				.globalResponses(HttpMethod.POST, responseMessageForPost())
+				.globalResponses(HttpMethod.PUT, responseMessageForPut())
+				.globalResponses(HttpMethod.DELETE, responseMessageForDelete());
 	}
 	
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("API REST simples em Spring Boot")
+				.title("Logística API")
 				.description("Uma API de logística, onde clientes podem solicitar entregas,"
 						+ " sendo que cada entrega tem ocorrências, objetos e um motorista responsável.")
 				.contact(new Contact("Fabricio Siqueira Macedo", "https://github.com/fabriciio95",
@@ -48,55 +46,55 @@ public class SwaggerConfig {
 	}
 
 	
-	private List<ResponseMessage> responseMessageForGet() {
+	private List<Response> responseMessageForGet() {
 		return new ArrayList<>() {
 			private static final long serialVersionUID = 1L;
 		{
-			add(new ResponseMessageBuilder()
-					.code(500)
-					.message("Internal Server Error")
+			add(new ResponseBuilder()
+					.code("500")
+					.description("Erro interno no servidor")
 					.build());
-			add(new ResponseMessageBuilder()
-					.code(401)
-					.message("Unauthorized")
+			add(new ResponseBuilder()
+					.code("401")
+					.description("Não autorizado")
 					.build());
 		}};
 	}
 	
-	private List<ResponseMessage> responseMessageForPost() {
+	private List<Response> responseMessageForPost() {
 		return new ArrayList<>() {
 			private static final long serialVersionUID = 1L;
 			{
-				add(new ResponseMessageBuilder().code(401).message("Unauthorized").build());
-				add(new ResponseMessageBuilder().code(400).message("Bad Request").build());
-				add(new ResponseMessageBuilder().code(500).message("Internal Server Error").build());
+				add(new ResponseBuilder().code("401").description("Não autorizado").build());
+				add(new ResponseBuilder().code("400").description("Bad Request").build());
+				add(new ResponseBuilder().code("500").description("Erro interno no servidor").build());
 				
 			}
 		};
 	}
 	
-	private List<ResponseMessage> responseMessageForPut() {
+	private List<Response> responseMessageForPut() {
 		return new ArrayList<>() {
 			private static final long serialVersionUID = 1L;
 			{
-				add(new ResponseMessageBuilder().code(401).message("Unauthorized").build());
-				add(new ResponseMessageBuilder().code(400).message("Bad Request").build());
-				add(new ResponseMessageBuilder().code(404).message("Not Found").build());
-				add(new ResponseMessageBuilder().code(405).message("Method Not Allowed").build());
-				add(new ResponseMessageBuilder().code(500).message("Internal Server Error").build());
+				add(new ResponseBuilder().code("401").description("Não autorizado").build());
+				add(new ResponseBuilder().code("400").description("Bad Request").build());
+				add(new ResponseBuilder().code("404").description("Não Encontrado").build());
+				add(new ResponseBuilder().code("405").description("Método não permitido").build());
+				add(new ResponseBuilder().code("500").description("Erro interno no servidor").build());
 			}
 		};
 	}
 	
 	
-	private List<ResponseMessage> responseMessageForDelete() {
+	private List<Response> responseMessageForDelete() {
 		return new ArrayList<>() {
 			private static final long serialVersionUID = 1L;
 			{
-				add(new ResponseMessageBuilder().code(401).message("Unauthorized").build());
-				add(new ResponseMessageBuilder().code(404).message("Not Found").build());
-				add(new ResponseMessageBuilder().code(405).message("Method Not Allowed").build());
-				add(new ResponseMessageBuilder().code(500).message("Internal Server Error").build());
+				add(new ResponseBuilder().code("401").description("Não autorizado").build());
+				add(new ResponseBuilder().code("404").description("Não Encontrado").build());
+				add(new ResponseBuilder().code("405").description("Método não permitido").build());
+				add(new ResponseBuilder().code("500").description("Erro interno no servidor").build());
 			}
 		};
 	}
