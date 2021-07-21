@@ -21,11 +21,14 @@ Logística é uma API REST desenvolvida para fins de aprendizado, onde clientes 
 - REST
 
 # Como executar o projeto
-Pré-requisitos: Java 11
+Pré-requisitos: Java 11, MySQL
 
 ```bash
+
 # clonar repositório
 git clone https://github.com/fabriciio95/logistica
+
+#Alterar no arquivo application.properties as propriedades de usuário e senha passando a senha de seu banco de dados local
 
 # Entre na pasta raiz do projeto:
 cd logistica
