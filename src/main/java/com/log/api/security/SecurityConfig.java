@@ -25,7 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 				.addFilter(new JWTAuthenticationFilter(authenticationManager()))
 				.addFilter(new JWTAuthorizationFilter(authenticationManager()))
 				.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);	
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.cors();	
 	}
 	
 	
