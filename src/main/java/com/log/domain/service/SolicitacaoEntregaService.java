@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.log.domain.model.Entrega;
 import com.log.domain.model.StatusEntrega;
+import com.log.domain.repository.DestinatarioRepository;
 import com.log.domain.repository.EntregaRepository;
 import com.log.domain.repository.ObjetoRepository;
 
@@ -19,6 +20,7 @@ public class SolicitacaoEntregaService {
 	private EntregaRepository entregaRepository;
 	private CrudClienteService crudClienteService;
 	private ObjetoRepository objetoRepository;
+	private DestinatarioRepository destinatarioRepository;
 	
 	@Transactional
 	public Entrega solicitar(Entrega entrega) {
@@ -26,6 +28,9 @@ public class SolicitacaoEntregaService {
 		entrega.setStatus(StatusEntrega.PENDENTE);
 		entrega.setDataPedido(OffsetDateTime.now());
 		entrega = entregaRepository.save(entrega);
+		entrega.getDestinatario().setEntrega(new Entrega());
+		entrega.getDestinatario().getEntrega().setId(entrega.getId());
+		entrega.setDestinatario(destinatarioRepository.save(entrega.getDestinatario()));
 		salvarObjetos(entrega);
 		return entrega;
 	}
@@ -37,4 +42,5 @@ public class SolicitacaoEntregaService {
 			objetoRepository.save(obj);
 		});
 	}
+	
 }

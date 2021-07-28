@@ -1,36 +1,47 @@
 package com.log.domain.model;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Embeddable
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Entity
 public class Destinatario {
 	
+	@EqualsAndHashCode.Include
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
-	@Column(name = "destinatario_nome")
-	private String nome;
+	private String destinatário;
 	
-	@Column(name = "destinatario_cep")
 	private String cep;
-	
-	@Column(name = "destinatario_rua")
+
 	private String rua;
 	
-	@Column(name = "destinatario_logradouro")
-	private String logradouro;
-	
-	@Column(name = "destinatario_numero")
 	private String numero;
 	
-	@Column(name = "destinatario_complemento")
+	private String bairro;
+	
+	private String cidade;
+	
+	private String estado;
+	
 	private String complemento;
 	
-	@Column(name = "destinatario_bairro")
-	private String bairro;
+	private String recebedor;
+	
+	private String rgRecebedor;
+	
+	@OneToOne
+	private Entrega entrega;
 	
 }

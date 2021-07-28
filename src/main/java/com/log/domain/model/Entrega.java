@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.log.domain.exception.NegocioException;
 
@@ -41,10 +41,10 @@ public class Entrega {
 	@ManyToOne
 	private Motorista motorista;
 	
-	@Embedded
-	private Destinatario destinatario;
-	
 	private BigDecimal taxa;
+	
+	@OneToOne(mappedBy = "entrega", cascade = CascadeType.ALL)
+	private Destinatario destinatario;
 	
 	@OneToMany(mappedBy = "entrega", cascade = CascadeType.ALL)
 	private List<Ocorrencia> ocorrencias = new ArrayList<>();

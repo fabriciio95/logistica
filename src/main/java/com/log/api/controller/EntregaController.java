@@ -15,13 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.log.api.mapper.DestinatarioMapper;
 import com.log.api.mapper.EntregaMapper;
 import com.log.api.model.input.EntregaDTOInput;
 import com.log.api.model.input.MotoristaDTOIdInput;
 import com.log.api.model.input.OcorrenciaDTOInput;
+import com.log.api.model.output.DestinatarioDTOOutput;
 import com.log.api.model.output.EntregaDTOOutput;
+import com.log.domain.model.Destinatario;
 import com.log.domain.model.Entrega;
 import com.log.domain.repository.EntregaRepository;
+import com.log.domain.service.CrudDestinatarioService;
 import com.log.domain.service.SolicitacaoEntregaService;
 import com.log.domain.service.StatusEntregaService;
 
@@ -36,6 +40,8 @@ public class EntregaController {
 	private SolicitacaoEntregaService solicitacaoEntregaService;
 	private EntregaMapper entregaMapper;
 	private StatusEntregaService statusEntregaService;
+	private CrudDestinatarioService crudDestinatarioService;
+	private DestinatarioMapper destinatarioMapper;
 	
 	
 	@PostMapping(consumes = "application/json", produces="application/json")
@@ -56,6 +62,15 @@ public class EntregaController {
 		return entregaRepository.findById(entregaId)
 				.map(entrega -> ResponseEntity.ok(entregaMapper.toDTO(entrega)))
 				.orElse(ResponseEntity.notFound().build());
+	}
+	
+	@GetMapping(value = "/{entregaId}/destinatario", produces = "application/json")
+	public ResponseEntity<DestinatarioDTOOutput> buscarDestinatario(@PathVariable(name = "entregaId") Long idEntrega) {
+		Destinatario destinatario = crudDestinatarioService.buscarDestinatarioEntrega(idEntrega);
+		if(destinatario == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(destinatarioMapper.toDTO(destinatario));
 	}
 	
 	@PutMapping(value = "/{entregaId}/finalizacao", produces="application/json")

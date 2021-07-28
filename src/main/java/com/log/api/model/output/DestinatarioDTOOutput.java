@@ -1,17 +1,26 @@
 package com.log.api.model.output;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Getter;
 import lombok.Setter;
 
+@JsonInclude(value = Include.NON_NULL)
 @Getter
 @Setter
 public class DestinatarioDTOOutput {
-
-	private String nome;
+	
+	private Long id;
+	private String destinatário;
 	private String cep;
 	private String rua;
-	private String logradouro;
 	private String numero;
-	private String complemento;
 	private String bairro;
+	private String cidade;
+	private String estado;
+	private String complemento;
+	private String recebedor;
+	private String rgRecebedor;
+	private EntregaIdDTOOutput entrega;
 }

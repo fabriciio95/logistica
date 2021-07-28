@@ -4,4 +4,6 @@ public interface ValidationGroups {
 
 	public interface ClienteId {}
 	
+	public interface atualizacao{}
+	
 }
