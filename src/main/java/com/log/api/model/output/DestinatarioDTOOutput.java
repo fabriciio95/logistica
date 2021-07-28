@@ -8,6 +8,7 @@ import lombok.Setter;
 public class DestinatarioDTOOutput {
 
 	private String nome;
+	private String cep;
 	private String logradouro;
 	private String numero;
 	private String complemento;

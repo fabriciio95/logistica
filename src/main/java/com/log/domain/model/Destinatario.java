@@ -11,8 +11,12 @@ import lombok.Setter;
 @Embeddable
 public class Destinatario {
 	
+	
 	@Column(name = "destinatario_nome")
 	private String nome;
+	
+	@Column(name = "destinatario_cep")
+	private String cep;
 	
 	@Column(name = "destinatario_logradouro")
 	private String logradouro;
