@@ -18,6 +18,9 @@ public class Destinatario {
 	@Column(name = "destinatario_cep")
 	private String cep;
 	
+	@Column(name = "destinatario_rua")
+	private String rua;
+	
 	@Column(name = "destinatario_logradouro")
 	private String logradouro;
 	

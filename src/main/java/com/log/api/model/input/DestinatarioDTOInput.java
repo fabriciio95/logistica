@@ -16,6 +16,9 @@ public class DestinatarioDTOInput {
 	private String cep;
 	
 	@NotBlank
+	private String rua;
+	
+	@NotBlank
 	private String logradouro;
 	
 	@NotBlank
