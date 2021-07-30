@@ -15,4 +15,7 @@ public class ObjetoDTOInput {
 	
 	@NotNull
 	private Double peso;
+	
+	@NotNull
+	private int quantidade;
 }
