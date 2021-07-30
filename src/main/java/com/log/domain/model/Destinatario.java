@@ -21,7 +21,7 @@ public class Destinatario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String destinatário;
+	private String destinatario;
 	
 	private String cep;
 

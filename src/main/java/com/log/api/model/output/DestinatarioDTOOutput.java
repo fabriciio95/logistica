@@ -12,7 +12,7 @@ import lombok.Setter;
 public class DestinatarioDTOOutput {
 	
 	private Long id;
-	private String destinatário;
+	private String destinatario;
 	private String cep;
 	private String rua;
 	private String numero;
