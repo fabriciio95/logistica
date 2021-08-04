@@ -25,7 +25,7 @@ public class Objeto {
 	
 	private double peso;
 	
-	private int quantidade;
+	private Integer quantidade;
 	
 	@ManyToOne
 	private Entrega entrega;

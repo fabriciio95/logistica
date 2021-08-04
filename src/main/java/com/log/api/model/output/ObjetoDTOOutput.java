@@ -10,6 +10,6 @@ public class ObjetoDTOOutput {
 	private Long id;
 	private String nome;
 	private double peso;
-	private int quantidade;
+	private Integer quantidade;
 	
 }

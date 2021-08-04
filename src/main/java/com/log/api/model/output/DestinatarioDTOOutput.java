@@ -22,5 +22,5 @@ public class DestinatarioDTOOutput {
 	private String complemento;
 	private String recebedor;
 	private String rgRecebedor;
-	private EntregaIdDTOOutput entrega;
+	private Long entregaId;
 }
